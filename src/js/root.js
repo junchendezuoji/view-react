@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router,Route,hashHistory} from 'react-router';
+import 'antd/dist/antd.css';
+import PCIndex from './components/pc_index';
 
 export default class Root extends React.Component{
   render(){
     return (
-    <div>Init</div>
+      <div>
+        <PCIndex />
+      </div>
     );
   };
 }
