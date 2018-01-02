@@ -1,0 +1,26 @@
+html {
+  font-size:50px;
+}
+
+#mobileheader {
+  flex:1;
+  background-color:#f6f6f6;
+}
+
+#mobileheader header {
+  border-bottom: 1px solid #2db7f5;
+  padding-left:8px;
+}
+
+#mobileheader header img {
+  height: 50px;
+}
+
+#mobileheader header span {
+  display: inline-block;
+  font-size: 25px;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-top: 8px;
+  color: #2db7f5;
+}
