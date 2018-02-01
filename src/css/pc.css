@@ -18,3 +18,13 @@
 .footer {
   text-align: center;
 }
+
+.register {
+
+  float:left !important;
+}
+
+.ant-menu-horizontal > .ant-menu-item > a, .ant-menu-horizontal > .ant-menu-submenu > a
+{
+  display: inline-block !important;
+}
