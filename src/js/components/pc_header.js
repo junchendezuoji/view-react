@@ -20,12 +20,19 @@ class PCHeader extends React.Component {
     };
   };//构造函数对state初始值设置
 
+  componentWillMount(){
+    if(localStorage.userid != ""){
+      this.setState({hasLogined:true});
+      this.setState({userNikeName:localStorage.userNikeName,userid:localStorage.userid});
+    }
+  };//生命周期组件将要加载函数，让页面刷新时记得用户数据
+
   setModelVisible(value){
     this.setState({modalVisible:value});
   };//改变登陆框状态的函数
 
   handleClick(e){
-    if(e.key="register"){
+    if(e.key=="register"){
       this.setState({current:'register'});
       this.setModelVisible(true);
     }
@@ -48,7 +55,9 @@ class PCHeader extends React.Component {
     +"&r_confirmPassword="+formData.r_confirmPassword,myFetchOptions).
     then(response=>response.json()).then(json=>{
       this.setState({userNikeName:json.NickUserName,userid:json.UserId});
-    });//fetch方法
+      localStorage.userid = json.UserId;
+      localStorage.userNikeName = json.NickUserName;
+    });//fetch方法,并记录用户数据
     if(this.state.action=="login"){
       this.setState({hasLogined:true});
     }
@@ -65,6 +74,12 @@ class PCHeader extends React.Component {
     }
   };//注册登录tab动态切换函数
 
+  logout(){
+    localStorage.userid = "";
+    localStorage.userNikeName = "";
+    this.setState({hasLogined:false});
+  };//登出函数
+
   render(){
     let {getFieldProps} = this.props.form;//接受form的参数
     const userShow = this.state.hasLogined
@@ -75,7 +90,7 @@ class PCHeader extends React.Component {
           <Button type="dashed" htmlType="button">个人中心</Button>
         </Link>
         &nbsp;&nbsp;
-        <Button type="ghost" htmlType="button">退出</Button>
+        <Button type="ghost" htmlType="button" onClick={this.logout.bind(this)}>退出</Button>
       </Menu.Item>//登录之后的导航栏显示
     : <Menu.Item key="register" className="register">
         <Icon type="appstore" />注册/登录
