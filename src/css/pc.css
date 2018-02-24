@@ -28,3 +28,22 @@
 {
   display: inline-block !important;
 }
+
+.leftContainer {
+  width: 400px;
+  float: left;
+}
+
+.container {
+  padding-top: 10px;
+}
+
+.carousel {
+  width: 400px;
+  float: left;
+}
+
+.carousel img {
+  width: 400px;
+  height: 300px;
+}
