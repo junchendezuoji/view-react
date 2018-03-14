@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {Router, Route, Link, browserHistory} from 'react-router';
-import {Row,Col,Menu,Icon,Tabs,Form,Input,Button,message,CheckBox,Modal,Card} from 'antd';
+import {Row,Col,Menu,Icon,Tabs,Form,Input,Button,message,CheckBox,Modal,Card,notification} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const FormItem = Form.Item;
@@ -33,7 +33,7 @@ class CommonComments extends React.Component {
     };
     var formdata = this.props.form.getFieldsValue();
     fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=comment&userid="
-    +localStorage+"&uniquekey="
+    +localStorage.userid+"&uniquekey="
     +this.props.uniquekey+"&commnet="
     +formdata.remark
     ,myFetchOptions)
@@ -41,6 +41,19 @@ class CommonComments extends React.Component {
     .then(json=>{this.componentDidMount();
     })
   };//提交评论
+
+  addUserCollection(){
+    var myFetchOptions = {
+      method:"GET"
+    };
+    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=uc&userid="
+    +localStorage.userid+"&uniquekey="
+    +this.props.uniquekey,myFetchOptions).then(response=>response.json())
+    .then(json=>{
+      //收藏成功以后全局提示
+      notification['success']({messaage:"ReactNews提醒",description:"收藏文章成功"});
+    });
+  };//收藏
 
   render(){
     let {getFieldProps} = this.props.form;
@@ -63,6 +76,8 @@ class CommonComments extends React.Component {
                 <Input type="textarea" placeholder="请提交评论" {...getFieldProps('remark',{initialValue: ''})}/>
               </FormItem>
               <Button type="primary" htmlType="submit">提交评论</Button>
+              &nbsp;&nbsp;
+              <Button type="primary" htmlType="button" onClick={this.addUserCollection.bind(this)}>点击收藏</Button>
             </Form>
           </Col>
         </Row>
