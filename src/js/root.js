@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import PCIndex from './components/pc_index';
 import PCNewsDetails from './components/pc_news_details';
 import MobileIndex from './components/mobile_index';
+import PCUserCenter from './components/pc_usercenter';
 
 export default class Root extends React.Component{
   render(){
@@ -15,6 +16,7 @@ export default class Root extends React.Component{
           <Router history={hashHistory}>
             <Route path="/" component={PCIndex}></Route>
             <Route path="/details/:uniquekey" component={PCNewsDetails}></Route>
+            <Route path="/usercenter" component={PCUserCenter}></Route>
           </Router>
         </MediaQuery>
         <MediaQuery query='(max-device-width: 1224px)'>{/*当前屏幕最大为1224px时，为mobile端*/}
