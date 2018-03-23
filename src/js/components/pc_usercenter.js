@@ -12,12 +12,51 @@ export default class PCUserCenter extends React.Component {
   constructor(){
     super();
   	this.state = {
+      usercollection:'',
+      usercommments:'',
   		previewImage: '',
   		previewVisible: false
   	};
   };//构造函数设置初值
 
+  componentDidMount(){
+    var myFetchOptions = {
+      method : "GET"
+    };
+    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getuc&userid="+localStorage.userid,myFetchOptions)
+    .then(response=>response.json())
+    .then(json=>{
+      this.setState({
+        usercollection:json
+      });
+    });
+    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getusercomments&userid="+localStorage.userid,myFetchOptions)
+    .then(response=>response.json())
+    .then(json=>{
+      this.setState({
+        usercommments:json
+      });
+    });
+  };//组件加载完成的时候请求到信息
+
   render(){
+
+    const {usercollection,usercommments} = this.state;
+    const usercollectionList = usercollection.length
+    ?usercollection.map((uc,index)=>(
+      <Card key={index} title={uc.uniqueky} extra={<a href={'/#/details/${uc.uniqueky}'}>查看</a>} target="_blank" >
+        <p>{uc.Title}</p>
+      </Card>
+    ))
+    :'您还没有收藏新闻!';//收藏列表展示
+
+    const usercommmentsList = usercommments.length
+    ?usercommments.map((comment,index)=>(
+      <Card key={index} title={`于 ${comment.datetime} 评论了文章 ${comment.uniqueky}`} extra={<a href={'/#/details/${comment.uniqueky}'}>查看</a>} target="_blank" >
+        <p>{comment.Comments}</p>
+      </Card>
+    ))
+    :'您还没有评论!';//评论列表展示
 
     const props = {
       action: 'http://newsapi.gugujiankong.com/handler.ashx',
@@ -47,10 +86,18 @@ export default class PCUserCenter extends React.Component {
           <Col span={20}>
           <Tabs>
             <TabPane tab="我的收藏列表" key="1">
-
+              <div className="commet">
+                <Row>
+                  <Col span={24}>{usercollectionList}</Col>
+                </Row>
+              </div>
             </TabPane>
             <TabPane tab="我的评论列表" key="2">
-
+              <div className="commet">
+                <Row>
+                  <Col span={24}>{usercommmentsList}</Col>
+                </Row>
+              </div>
             </TabPane>
             <TabPane tab="我的头像设置" key="3">
               <div className="clearfix">
