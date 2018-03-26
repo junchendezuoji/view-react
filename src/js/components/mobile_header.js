@@ -89,7 +89,7 @@ class MobileHeader extends React.Component {
     let {getFieldProps} = this.props.form;//接受form的参数
     const userShow = this.state.hasLogined
     ?
-		<Link>
+		<Link to={`/usercenter`}>
 			<Icon type="inbox"/>
 		</Link>
 		:
